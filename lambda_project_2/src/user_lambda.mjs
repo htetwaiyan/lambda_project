@@ -43,6 +43,18 @@ export const handler = async (event) => {
 };
 
 async function register(event) {
+
+
+  if (!event.body) {
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({ message: 'Username, password, and email are required' })
+    };
+  }
+
   const body = JSON.parse(event.body);
   const { username, password, email, fullName } = body;
   
@@ -126,6 +138,18 @@ async function register(event) {
 }
 
 async function login(event) {
+
+
+  if (!event.body) {
+    return {
+      statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
+      body: JSON.stringify({ message: 'Username and password are required' })
+    };
+  }
+
   const body = JSON.parse(event.body);
   const { username, password } = body;
   
