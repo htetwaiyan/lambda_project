@@ -18,6 +18,9 @@ export const handler = async (event) => {
     } else {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type" : "application/json"
+        },
         body: JSON.stringify({ message: 'Invalid request path or method' })
       };
     }
@@ -25,6 +28,9 @@ export const handler = async (event) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Internal server error' })
     };
   }
@@ -54,6 +60,9 @@ async function listPosts(queryParams) {
     
     return {
       statusCode: 200,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({
         posts: result.Items,
         lastEvaluatedKey: result.LastEvaluatedKey 
@@ -82,6 +91,9 @@ async function listPosts(queryParams) {
     
     return {
       statusCode: 200,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({
         posts: result.Items,
         lastEvaluatedKey: result.LastEvaluatedKey 
@@ -106,6 +118,9 @@ async function listPosts(queryParams) {
   
   return {
     statusCode: 200,
+    headers: {
+      "Content-Type" : "application/json"
+    },
     body: JSON.stringify({
       posts: result.Items,
       lastEvaluatedKey: result.LastEvaluatedKey 

@@ -24,6 +24,9 @@ export const handler = async (event) => {
     } else {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type" : "application/json"
+        },
         body: JSON.stringify({ message: 'Invalid request path or method' })
       };
     }
@@ -31,6 +34,9 @@ export const handler = async (event) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Internal server error' })
     };
   }
@@ -44,6 +50,9 @@ async function register(event) {
   if (!username || !password || !email) {
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Username, password, and email are required' })
     };
   }
@@ -61,6 +70,9 @@ async function register(event) {
   if (existingUserByUsername.Items && existingUserByUsername.Items.length > 0) {
     return {
       statusCode: 409,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Username already exists' })
     };
   }
@@ -97,6 +109,9 @@ async function register(event) {
   
   return {
     statusCode: 201,
+    headers: {
+      "Content-Type" : "application/json"
+    },
     body: JSON.stringify({ 
       message: 'User registered successfully',
       token,
@@ -118,6 +133,9 @@ async function login(event) {
   if (!username || !password) {
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Username and password are required' })
     };
   }
@@ -135,6 +153,9 @@ async function login(event) {
   if (!result.Items || result.Items.length === 0) {
     return {
       statusCode: 401,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Invalid credentials' })
     };
   }
@@ -147,6 +168,9 @@ async function login(event) {
   if (!isPasswordValid) {
     return {
       statusCode: 401,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Invalid credentials' })
     };
   }
@@ -160,6 +184,9 @@ async function login(event) {
   
   return {
     statusCode: 200,
+    headers: {
+      "Content-Type" : "application/json"
+    },
     body: JSON.stringify({ 
       message: 'Login successful',
       token,

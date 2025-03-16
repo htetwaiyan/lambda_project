@@ -19,6 +19,9 @@ export const handler = async (event) => {
       if (!token) {
         return { 
           statusCode: 401,
+          headers: {
+            "Content-Type" : "application/json"
+          },
           body: JSON.stringify({ message: 'Authentication required' })
         };
       }
@@ -27,6 +30,9 @@ export const handler = async (event) => {
     } catch (error) {
       return {
         statusCode: 401,
+        headers: {
+          "Content-Type" : "application/json"
+        },
         body: JSON.stringify({ message: 'Invalid or expired token' })
       };
     }
@@ -44,6 +50,9 @@ export const handler = async (event) => {
     } else {
       return {
         statusCode: 400,
+        headers: {
+          "Content-Type" : "application/json"
+        },
         body: JSON.stringify({ message: 'Invalid request path or method' })
       };
     }
@@ -51,6 +60,9 @@ export const handler = async (event) => {
     console.error('Error:', error);
     return {
       statusCode: 500,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Internal server error' })
     };
   }
@@ -61,6 +73,9 @@ async function createPost(event, user) {
   if(!event.body){
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Title and content are required' })
     };
   }
@@ -71,15 +86,18 @@ async function createPost(event, user) {
   if (!title || !content) {
     return {
       statusCode: 400,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Title and content are required' })
     };
   }
   
   const timestamp = new Date().toISOString();
-  const blogId = uuidv4();
+  const postId = uuidv4();
   
   const post = {
-    blogId,
+    postId,
     userId: user.userId,
     username: user.username,
     title,
@@ -95,6 +113,9 @@ async function createPost(event, user) {
   
   return {
     statusCode: 201,
+    headers: {
+      "Content-Type" : "application/json"
+    },
     body: JSON.stringify({ 
       message: 'Post created successfully',
       post 
@@ -102,11 +123,11 @@ async function createPost(event, user) {
   };
 }
 
-async function deletePost(blogId, user) {
+async function deletePost(postId, user) {
   // First check if the post exists and belongs to the user
   const result = await dynamoDB.get({
     TableName: postsTable,
-    Key: { blogId }
+    Key: { postId }
   });
 
   console.log(result);
@@ -116,6 +137,9 @@ async function deletePost(blogId, user) {
   if (!post) {
     return {
       statusCode: 404,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'Post not found' })
     };
   }
@@ -124,20 +148,26 @@ async function deletePost(blogId, user) {
   if (post.userId !== user.userId) {
     return {
       statusCode: 403,
+      headers: {
+        "Content-Type" : "application/json"
+      },
       body: JSON.stringify({ message: 'You do not have permission to delete this post' })
     };
   }
   
   await dynamoDB.delete({
     TableName: postsTable,
-    Key: { blogId }
+    Key: { postId }
   }); 
   
   return {
     statusCode: 200,
+    headers: {
+        "Content-Type" : "application/json"
+      },
     body: JSON.stringify({ 
       message: 'Post deleted successfully',
-      blogId 
+      postId 
     })
   };
 }
