@@ -1,6 +1,6 @@
-const axios = require("axios");
+import axios from "axios";
 
-exports.handler = async () => {
+export const handler = async () => {
   const secretName = "your-secret-name";
 
   try {
