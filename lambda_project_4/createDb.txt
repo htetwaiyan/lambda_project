@@ -1,0 +1,22 @@
+
+
+// instal mysql client
+
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/mysql-install-cli.html
+
+
+// connect from ec2 to AmazonRDS
+mysql -h <rds_endpoint> -u <user_name> -p
+
+
+----------------------
+
+CREATE DATABASE todo;
+
+use todo;
+
+CREATE TABLE todos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
